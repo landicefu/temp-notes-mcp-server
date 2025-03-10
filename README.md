@@ -2,6 +2,19 @@
 
 A Model Context Protocol (MCP) server that enables AI agents to store and retrieve temporary information across conversations and contexts.
 
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Key Features](#key-features)
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Tools](#tools)
+- [Usage Examples](#usage-examples)
+- [Use Cases](#use-cases)
+- [Note Storage](#note-storage)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Purpose
 
 The Temp Notes MCP Server provides a simple yet powerful way for AI agents to maintain state and context across multiple conversations or when working with complex tasks that exceed the context window limitations. It serves as a temporary memory system that allows agents to store notes, checklists, code snippets, and other information that can be retrieved later.
@@ -13,68 +26,106 @@ The Temp Notes MCP Server provides a simple yet powerful way for AI agents to ma
 - Lightweight and easy to integrate with existing workflows
 - Enables complex multi-step tasks to be broken down into manageable pieces
 
-## Use Cases
+## Quick Start
 
-### 1. Complex Coding Tasks
+1. Add the server to your MCP configuration using npx (no installation required):
+   ```json
+   {
+     "mcpServers": {
+       "temp-notes": {
+         "command": "npx",
+         "args": ["-y", "@landicefu/temp-notes-mcp-server"],
+         "disabled": false
+       }
+     }
+   }
+   ```
 
-When working on complex coding tasks, AI agents often face context window limitations that make it difficult to complete all steps in a single conversation. The Temp Notes MCP Server allows agents to:
+2. Start using it in your conversations:
+   ```javascript
+   // Store information
+   await use_mcp_tool({
+     server_name: "temp-notes",
+     tool_name: "write_note",
+     arguments: { content: "Important information to remember" }
+   });
+   
+   // Retrieve information later
+   const result = await use_mcp_tool({
+     server_name: "temp-notes",
+     tool_name: "read_note",
+     arguments: {}
+   });
+   ```
 
-- Store a checklist of tasks to be completed
-- Include detailed descriptions for each subtask
-- Note which files need to be examined for specific subtasks
-- Track progress across multiple conversations
-- Maintain important context that would otherwise be lost
+## Installation
 
-This enables breaking down complex tasks into smaller, manageable pieces while maintaining the overall context and goals.
+### Option 1: Use with npx (No Installation Required)
 
-### 2. Context Preservation Across Conversations
+1. Add the server to your MCP configuration:
+   ```json
+   {
+     "mcpServers": {
+       "temp-notes": {
+         "command": "npx",
+         "args": ["-y", "@landicefu/temp-notes-mcp-server"],
+         "disabled": false
+       }
+     }
+   }
+   ```
 
-As conversations grow longer, context windows can become full, limiting the agent's ability to maintain all relevant information. With the Temp Notes MCP Server, agents can:
+This option runs the server directly using npx without requiring a global installation.
 
-- Summarize the current task status
-- Document completed steps and remaining work
-- Store key insights and decisions made
-- Outline next steps for continuation in a new conversation
+### Option 2: Install from npm
 
-This allows users to start fresh conversations without losing progress or having to repeat information.
+1. Install the package globally:
+   ```bash
+   npm install -g @landicefu/temp-notes-mcp-server
+   ```
 
-### 3. Cross-Repository Information Transfer
+2. Add the server to your MCP configuration:
+   ```json
+   {
+     "mcpServers": {
+       "temp-notes": {
+         "command": "temp-notes-mcp-server",
+         "disabled": false
+       }
+     }
+   }
+   ```
 
-When working across multiple repositories or projects, it can be challenging to transfer relevant information. The Temp Notes MCP Server enables agents to:
+### Option 3: Install from source
 
-- Store code snippets from one repository
-- Save file contents for reference
-- Document patterns or approaches from one project to apply to another
-- Create temporary documentation that bridges multiple projects
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/landicefu/temp-notes-mcp-server.git
+   cd temp-notes-mcp-server
+   ```
 
-This facilitates knowledge transfer across different contexts without requiring complex setup.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### 4. Collaborative Workflows
+3. Build the server:
+   ```bash
+   npm run build
+   ```
 
-Multiple agents or users can build upon each other's work by:
-
-- Storing intermediate results for other agents to use
-- Creating shared task lists that can be updated by different agents
-- Documenting approaches and methodologies for others to follow
-- Maintaining a shared understanding of complex problems
-
-### 5. Learning and Experimentation
-
-When exploring new technologies or approaches, agents can:
-
-- Document learning resources and references
-- Store example code and usage patterns
-- Track experiments and their outcomes
-- Build a knowledge base of techniques and solutions
-
-### 6. Incremental Documentation
-
-For projects requiring documentation, agents can:
-
-- Gather information incrementally across multiple sessions
-- Organize content before finalizing documentation
-- Store draft sections that can be refined over time
-- Collect examples and use cases from different interactions
+4. Add the server to your MCP configuration:
+   ```json
+   {
+     "mcpServers": {
+       "temp-notes": {
+         "command": "node",
+         "args": ["/path/to/temp-notes-mcp-server/build/index.js"],
+         "disabled": false
+       }
+     }
+   }
+   ```
 
 ## Tools
 
@@ -143,90 +194,6 @@ Appends new text to the current note, starting with a new line. Optionally inclu
 }
 ```
 
-## Note Storage
-
-By default, the Temp Notes MCP Server stores notes in the following location:
-
-- On macOS/Linux: `~/.mcp_config/temp_notes.txt` (which expands to `/Users/username/.mcp_config/temp_notes.txt`)
-- On Windows: `C:\Users\username\.mcp_config\temp_notes.txt`
-
-This file is created automatically when you first write a note. If the file doesn't exist when you try to read a note, the server will return an empty string and create the file when you write to it next time.
-
-The server handles the following scenarios:
-
-- If the file doesn't exist when reading: Returns an empty string
-- If the directory doesn't exist: Creates the directory structure automatically when writing
-- If the file is corrupted or inaccessible: Returns appropriate error messages
-
-## Installation
-
-### Option 1: Install from npm (Recommended)
-
-1. Install the package globally:
-   ```bash
-   npm install -g @landicefu/temp-notes-mcp-server
-   ```
-
-2. Add the server to your MCP configuration:
-   ```json
-   {
-     "mcpServers": {
-       "temp-notes": {
-         "command": "temp-notes-mcp-server",
-         "disabled": false
-       }
-     }
-   }
-   ```
-
-### Option 2: Use with npx (No Installation Required)
-
-1. Add the server to your MCP configuration:
-   ```json
-   {
-     "mcpServers": {
-       "temp-notes": {
-         "command": "npx",
-         "args": ["-y", "@landicefu/temp-notes-mcp-server"],
-         "disabled": false
-       }
-     }
-   }
-   ```
-
-This option runs the server directly using npx without requiring a global installation.
-
-### Option 3: Install from source
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/landicefu/temp-notes-mcp-server.git
-   cd temp-notes-mcp-server
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Build the server:
-   ```bash
-   npm run build
-   ```
-
-4. Add the server to your MCP configuration:
-   ```json
-   {
-     "mcpServers": {
-       "temp-notes": {
-         "command": "node",
-         "args": ["/path/to/temp-notes-mcp-server/build/index.js"],
-         "disabled": false
-       }
-     }
-   }
-   ```
-
 ## Usage Examples
 
 ### Storing a Task Checklist
@@ -279,6 +246,84 @@ await use_mcp_tool({
   arguments: {}
 });
 ```
+
+## Use Cases
+
+### 1. Complex Coding Tasks
+
+When working on complex coding tasks, AI agents often face context window limitations that make it difficult to complete all steps in a single conversation. The Temp Notes MCP Server allows agents to:
+
+- Store a checklist of tasks to be completed
+- Include detailed descriptions for each subtask
+- Note which files need to be examined for specific subtasks
+- Track progress across multiple conversations
+- Maintain important context that would otherwise be lost
+
+This enables breaking down complex tasks into smaller, manageable pieces while maintaining the overall context and goals.
+
+### 2. Context Preservation Across Conversations
+
+As conversations grow longer, context windows can become full, limiting the agent's ability to maintain all relevant information. With the Temp Notes MCP Server, agents can:
+
+- Summarize the current task status
+- Document completed steps and remaining work
+- Store key insights and decisions made
+- Outline next steps for continuation in a new conversation
+
+This allows users to start fresh conversations without losing progress or having to repeat information.
+
+### 3. Cross-Repository Information Transfer
+
+When working across multiple repositories or projects, it can be challenging to transfer relevant information. The Temp Notes MCP Server enables agents to:
+
+- Store code snippets from one repository
+- Save file contents for reference
+- Document patterns or approaches from one project to apply to another
+- Create temporary documentation that bridges multiple projects
+
+This facilitates knowledge transfer across different contexts without requiring complex setup.
+
+### 4. Collaborative Workflows
+
+Multiple agents or users can build upon each other's work by:
+
+- Storing intermediate results for other agents to use
+- Creating shared task lists that can be updated by different agents
+- Documenting approaches and methodologies for others to follow
+- Maintaining a shared understanding of complex problems
+
+### 5. Learning and Experimentation
+
+When exploring new technologies or approaches, agents can:
+
+- Document learning resources and references
+- Store example code and usage patterns
+- Track experiments and their outcomes
+- Build a knowledge base of techniques and solutions
+
+### 6. Incremental Documentation
+
+For projects requiring documentation, agents can:
+
+- Gather information incrementally across multiple sessions
+- Organize content before finalizing documentation
+- Store draft sections that can be refined over time
+- Collect examples and use cases from different interactions
+
+## Note Storage
+
+By default, the Temp Notes MCP Server stores notes in the following location:
+
+- On macOS/Linux: `~/.mcp_config/temp_notes.txt` (which expands to `/Users/username/.mcp_config/temp_notes.txt`)
+- On Windows: `C:\Users\username\.mcp_config\temp_notes.txt`
+
+This file is created automatically when you first write a note. If the file doesn't exist when you try to read a note, the server will return an empty string and create the file when you write to it next time.
+
+The server handles the following scenarios:
+
+- If the file doesn't exist when reading: Returns an empty string
+- If the directory doesn't exist: Creates the directory structure automatically when writing
+- If the file is corrupted or inaccessible: Returns appropriate error messages
 
 ## Contributing
 
