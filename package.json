@@ -1,25 +1,45 @@
 {
-  "name": "temp-notes-mcp-server",
+  "name": "@landicefu/temp-notes-mcp-server",
   "version": "1.0.0",
+  "description": "This MCP server provides a simple yet powerful way for AI agents to maintain state and context across multiple conversations or when working with complex tasks that exceed the context window limitations.",
   "main": "build/index.js",
   "type": "module",
   "bin": {
     "temp-notes-mcp-server": "./build/index.js"
   },
+  "files": [
+    "build/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "start": "node build/index.js",
-    "dev": "tsc -w"
+    "dev": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "mcp",
     "notes",
-    "temporary storage"
+    "temporary storage",
+    "model-context-protocol",
+    "ai-tools",
+    "context-preservation",
+    "ai-memory"
   ],
-  "author": "",
+  "author": "Landice Fu <landice.fu@gmail.com>",
   "license": "MIT",
-  "description": "MCP server for temporary notes storage",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/landicefu/temp-notes-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/landicefu/temp-notes-mcp-server/issues"
+  },
+  "homepage": "https://github.com/landicefu/temp-notes-mcp-server#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.6.0",
     "fs-extra": "^11.2.0"
@@ -28,5 +48,8 @@
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.13.5",
     "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

@@ -160,9 +160,47 @@ The server handles the following scenarios:
 
 ## Installation
 
+### Option 1: Install from npm (Recommended)
+
+1. Install the package globally:
+   ```bash
+   npm install -g @landicefu/temp-notes-mcp-server
+   ```
+
+2. Add the server to your MCP configuration:
+   ```json
+   {
+     "mcpServers": {
+       "temp-notes": {
+         "command": "temp-notes-mcp-server",
+         "disabled": false
+       }
+     }
+   }
+   ```
+
+### Option 2: Use with npx (No Installation Required)
+
+1. Add the server to your MCP configuration:
+   ```json
+   {
+     "mcpServers": {
+       "temp-notes": {
+         "command": "npx",
+         "args": ["-y", "@landicefu/temp-notes-mcp-server"],
+         "disabled": false
+       }
+     }
+   }
+   ```
+
+This option runs the server directly using npx without requiring a global installation.
+
+### Option 3: Install from source
+
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/temp-notes-mcp-server.git
+   git clone https://github.com/landicefu/temp-notes-mcp-server.git
    cd temp-notes-mcp-server
    ```
 
