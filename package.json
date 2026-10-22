@@ -1,6 +1,6 @@
 {
   "name": "@landicefu/temp-notes-mcp-server",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This MCP server provides a simple yet powerful way for AI agents to maintain state and context across multiple conversations or when working with complex tasks that exceed the context window limitations.",
   "main": "build/index.js",
   "type": "module",
